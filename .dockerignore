@@ -1,0 +1,8 @@
+data/
+.idea/
+.dockerignore
+docker-compose.yaml
+Dockerfile
+docker/
+__pycache__/
+
