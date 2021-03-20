@@ -6,15 +6,13 @@ EXPOSE 8000
 
 WORKDIR /app
 
-ENV FLASK_APP=main.py
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=8000
-
-
 COPY ./README.md ./version ./get_version.py ./setup.py ./
 
 RUN pip install -e .
+RUN pip install waitress
+
+RUN rm ./README.md ./version ./get_version.py ./setup.py
 
 COPY ./src/main/python .
 
-CMD ["flask", "run"]
+CMD ["waitress-serve", "--port", "8000", "--url-scheme=http", "main:app"]
