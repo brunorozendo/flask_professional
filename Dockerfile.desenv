@@ -13,7 +13,7 @@ ENV FLASK_RUN_PORT=8000
 
 COPY ./README.md ./version ./get_version.py ./setup.py ./
 
-RUN pip install -e .
+RUN pip install -e .[dev,unit,integration]
 
 COPY ./src/main/python .
 

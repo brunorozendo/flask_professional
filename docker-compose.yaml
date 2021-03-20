@@ -1,7 +1,9 @@
 version: "3.9"
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.desenv
     ports:
       - "8000:8000"
     volumes:
@@ -21,31 +23,32 @@ services:
       - 9090:9090
     networks:
       - flask_profissional-network
-#
-#  grafana:
-#    image: grafana/grafana
-#    volumes:
-#      - ./docker/data/grafana/data:/var/lib/grafana
-#      - ./docker/grafana:/var/lib/grafana
-#      - ./data/grafana/data:/var/lib/grafana
-#    ports:
-#      - 3000:3000
-#    depends_on:
-#      - prometheus
-#    user: "grafana"
-#    networks:
-#      - flask_profissional-network
-#
-#  postgres:
-#    image: postgres
-#    environment:
-#      POSTGRES_PASSWORD: admin
-#    volumes:
-#    - ./data/postgres/data:/var/lib/postgresql/data
-#    ports:
-#      - "5432:5432"
-#    networks:
-#      - flask_profissional-network
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./docker/data/grafana/data:/var/lib/grafana
+      - ./docker/grafana-datasource.yml:/etc/grafana/provisioning/datasources/grafana-datasource.yml
+      - ./docker/grafana-dashboard.yml:/etc/grafana/provisioning/dashboards/grafana-dashboard.yml
+      - ./docker/grafana-flask-dashboard.json:/var/lib/grafana/dashboards/grafana-flask-dashboard.json
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+    user: "grafana"
+    networks:
+      - flask_profissional-network
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: admin
+    volumes:
+    - ./docker/data/postgres/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - flask_profissional-network
 
 
 networks:
