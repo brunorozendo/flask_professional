@@ -3,6 +3,7 @@ data/
 .dockerignore
 docker-compose.yaml
 Dockerfile
+Dockerfile.desenv
 docker/
 __pycache__/
 
